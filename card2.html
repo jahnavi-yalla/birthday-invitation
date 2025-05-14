@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beautiful Birthday Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: url("https://img.freepik.com/premium-photo/birthday-anniversary-party-photo-album-full-happy-vibes-decoration-ideas_563241-20104.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      box-shadow: 8px 12px 20px rgba(0, 0, 0, 0.3);
+      width: 500px;
+      height: 100vh;
+      max-height: 600px;
+      padding: 30px 20px;
+      text-align: center;
+      overflow-y: auto;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      color: crimson;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      font-family: 'Pacifico', cursive;
+      animation: pop 1s ease-out;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 15px 0;
+      line-height: 1.5;
+    }
+
+    .corner-img {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 20px;
+      z-index: 1;
+    }
+
+    .top-left    { top: 20px; left: 20px; }
+    .top-right   { top: 20px; right: 20px; }
+    .bottom-left { bottom: 20px; left: 20px; }
+    .bottom-right{ bottom: 20px; right: 20px; }
+
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .reveal-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: crimson;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .reveal-btn:hover {
+      background: darkred;
+    }
+
+    .hidden-message {
+      display: none;
+      font-size: 20px;
+      color: #e91e63;
+      margin-top: 20px;
+    }
+
+    .fade-in {
+      display: block;
+      animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .corner-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body onload="launchConfetti()">
+
+  <!-- Corner Images -->
+  <img class="corner-img top-left" src="https://tse1.mm.bing.net/th/id/OIP.hPmw0KM5P_G3imMg8ZLFRQHaLH?cb=iwp2&rs=1&pid=ImgDetMain" alt="Top Left Decoration">
+  <img class="corner-img top-right" src="https://editzstock.com/wp-content/uploads/2022/06/Lord-krishna-painting-wallpaper-hd.jpg" alt="Top Right Decoration">
+  <img class="corner-img bottom-left" src="https://editzstock.com/wp-content/uploads/2022/06/Lord-krishna-painting-wallpaper-hd.jpg" alt="Bottom Left Decoration">
+  <img class="corner-img bottom-right" src="https://i.pinimg.com/474x/88/c8/89/88c88903f0f732368dfe48296eeeafb9.jpg" alt="Bottom Right Decoration">
+
+  <!-- Birthday Card -->
+  <div class="card">
+    <h1>🎂 Happy Birthday! 🎉</h1>
+    <p>❤️ May your birthday be filled with laughter, joy, and cake! ❤️</p>
+    <p>🎈 Another year older, wiser, and more wonderful! 🎈</p>
+    <p>💖 You light up the lives of everyone around you! 💖</p>
+    <p>🎉 Here's to a future filled with love and happiness. 🎉</p>
+    <p>🥳 Celebrate big, love bigger, and never stop dreaming. 🥳</p>
+
+    <button class="reveal-btn" onclick="revealMessage()">🎁 Click for a Surprise!</button>
+    <div class="hidden-message" id="surpriseMsg">🎊 You are truly special. Wishing you endless joy and love! 🎊</div>
+
+    <!-- Play Music Button -->
+    <button class="reveal-btn" onclick="playMusic()">🔊 Play Music</button>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2025/01/26/audio_3f5c09b7be.mp3?filename=relaxing-krishna-flute-music-deep-sleep-relaxing-music-292793.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- JavaScript -->
+  <script>
+    function launchConfetti() {
+      if (window.confetti) {
+        confetti({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function revealMessage() {
+      const msg = document.getElementById('surpriseMsg');
+      msg.classList.add('fade-in');
+    }
+
+    function playMusic() {
+      const music = document.getElementById('bgMusic');
+      music.play();
+    }
+  </script>
+
+</body>
+</html>
